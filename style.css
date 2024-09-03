@@ -1,4 +1,4 @@
-* {
+    * {
     text-decoration: none;
     margin: 0px;
     padding: 0px;
@@ -10,14 +10,12 @@ body {
     font-family: 'Open Sans',sans-serif;
     background-image: url(https://img.freepik.com/free-vector/gray-line-drawings-organic-shapes-background_1409-3947.jpg?t=st=1725187640~exp=1725191240~hmac=0e262dc5c259bb6d467b5d79181118b82fdcf795abae2ce140457f5b2b3e96e9&w=740);
 }
-
 .wrapper {
     width: 1100px;
     margin: auto;
     position: relative;
     
 }
-
 
 .logo a {
     font-size: 40px;
@@ -30,8 +28,12 @@ body {
 .menu {
     float: right;
 }
+.wrapper11 {
+    width: 100%;
+    background-image: url(https://img.freepik.com/free-vector/elegant-hand-painted-alcohol-ink-background-with-gold-glitter_1048-16896.jpg?w=740&t=st=1725339683~exp=1725340283~hmac=9123754b11f09a4fd236097823843494186832696be112135437c50eae4c59de);
+}
 
-nav {  
+nav {
     width: 100%;
     margin: auto;
     margin-bottom: 30px;
@@ -40,12 +42,10 @@ nav {
     position: sticky;
     position: -webkit-sticky; 
     top: 0;
-    background-image: url(https://img.freepik.com/free-vector/elegant-hand-painted-alcohol-ink-background-with-gold-glitter_1048-16896.jpg?w=740&t=st=1725339683~exp=1725340283~hmac=9123754b11f09a4fd236097823843494186832696be112135437c50eae4c59de);
+    background: #FFFFFF;
     z-index: 1;
     border-bottom:1px solid #364f6b;
-    height: 100px;
 }
-
 
 nav ul {
     list-style-type: none;
