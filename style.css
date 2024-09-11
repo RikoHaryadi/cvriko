@@ -326,8 +326,9 @@ h3 {
     }
 }
 
-.gbr {
-    margin-right: 30px;
+.gbr img {
+    width: auto;
+    height: 450px;
 }
 .menu {
     margin: 20px;
@@ -357,6 +358,7 @@ h3 {
 .gbr {
     margin-top: 50px;
     margin-left: 10px;
+    margin-right: 30px;
 }
 
 
