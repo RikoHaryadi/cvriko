@@ -1,266 +1,366 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV RIKO.</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GQVECPB5F1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peta Rute Salesman</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body, html { margin:0; padding:0; height:100%; }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 50px;
+      display: flex; align-items: center; padding: 0 20px;
+      background: rgba(6,168,243,0.8); z-index: 1001; box-sizing:border-box;
+    }
+    .navbar .hamburger {
+      display: none; font-size: 24px; cursor: pointer; color:#fff;
+      z-index: 1002;
+    }
+    .navbar-links {
+      display: flex; margin-left: 20px;
+    }
+    .navbar-links a {
+      color: #fff; padding: 14px 16px; text-decoration: none;
+    }
+    .navbar-text { margin-left: auto; color: #fff; }
+    @media (max-width:768px) {
+      .navbar .hamburger { display:block; }
+      .navbar-links {
+        display: none; flex-direction: column; width: 100%;
+        position: absolute; top: 50px; left: 0;
+        background: rgba(6,168,243,0.9); z-index: 1001;
+      }
+      .navbar-links.show { display: flex; }
+      .navbar-links a { padding: 12px; }
+    }
+    /* Sidebar overlay */
+    #sidebar {
+      position: absolute; top: 50px; left: 0;
+      width: 300px; height: calc(100% - 50px);
+      background: #cfd3cf; box-shadow: 2px 0 6px rgba(0,0,0,0.3);
+      padding:10px; box-sizing:border-box;
+      transition: transform 0.3s ease; z-index: 600;
+    }
+    #sidebar.collapsed {
+      transform: translateX(-300px);
+    }
+    /* Toggle button */
+    #toggle-btn {
+      position: absolute;
+      top: 50%;
+      left: 300px;
+      transform: translateY(-50%);
+      width:30px; height:30px; background:rgba(6,168,243,0.8);
+      color:#fff; border:none; border-radius:4px;
+      cursor:pointer; font-size:18px;
+      display:flex; align-items:center; justify-content:center;
+      transition: left 0.3s ease, transform 0.3s ease;
+      z-index:650;
+    }
+    #toggle-btn.collapsed {
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
+    }
+    /* Map fills entire viewport below navbar */
+    #map {
+      position:absolute; top:50px; left:0; right:0; bottom:0; z-index:500;
+    }
+    /* Sales styling */
+    .sales-item { display:flex; align-items:center; margin-bottom:15px; }
+    .sales-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
+    .sales-info h3 { margin:0 0 5px; }
+    .sales-info p { margin:2px 0; }
 
-  gtag('config', 'G-GQVECPB5F1');
-</script>
+    .note-box {
+      background: rgba(255, 255, 224, 0.9); 
+      padding: 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      font-size: 14px;
+      line-height: 1.4;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baskervville+SC&family=Nerko+One&display=swap" rel="stylesheet">
-
+  </style>
 </head>
 <body>
-    <nav>
-        <div class="wrapper11">
-            <div class="logo"><a href=''>M.Riko Haryadi.</a></div>
-            <a href="#" class="tombol-menu">
-                <span class="garis"></span>
-                <span class="garis"></span>
-                <span class="garis"></span>
-            </a>
-            <div class="menu">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#courses">Education</a></li>
-                    <li><a href="#tutors">Experince</a></li>
-                    <li><a href="#partners">Partners</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="https://drive.google.com/file/d/1tmcREWZcnNkFEf4ttpFNU8rlygOlvGCq/view?usp=drive_link" target="_blank" class="tbl-biru">Download CV</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="snow"></div> <!-- Div untuk efek salju -->
-    <div class="wrapper">
-        <!-- untuk home -->
-        <section id="home">
-            <div class="ppriko">
-                <img src="tetapsehat.jpg"/>
-            </div>
-            <div class="kolom">
-                <p class="deskripsi">Professional  Multitalent</p>
-                <h2>Tetap Sehat, Tetap Semangat</h2>
-                <p>Saya merupakan seorang yang pekerja keras memiliki
-                    integritas yang tinggi. Dan saya dikenal sebagai seseorang
-                    yang berdedikasi dan teliti dalam pekerjaan. Saya memiliki
-                    kepribadian yang ramah dan mudah bergaul. Saya senang
-                    bertemu dengan orang-orang baru dan belajar dari
-                    pengalaman mereka.</p>
-                <p>Dan saya juga seorang yang bepengalaman di dunia distributor (FMGC) kurang lebih 5 tahun dilapangan sebagai, Supervisor MD Supervisor Sales Dan operasional menager dan kurang lebih pulah 4 tahun dibidang administrasi distributor</p>
-             <!--    <p><a href="" class="tbl-pink">Pelajari Lebih Lanjut</a></p> -->
-            </div>
-        </section>
-
-        <!-- untuk courses -->
-        <section id="courses">
-            <div class="kolom">
-                <p class="deskripsi">Riwayat Pendidikan</p>
-                <h2>IPI-LEPPINDO JAMBI</h2>
-                <p>2006-2007 - DI-Komputer</p>
-                
-                <h2>SMA N.2 BATANGHARI</h2>
-                <p>2003-2006 - Jurusan IPA</p>
-                <h2>SMP N.1 BATANGHARI</h2>
-                <p>2000-2003 </p>
-                <!--<p><a href="" class="tbl-biru">Pelajari Lebih Lanjut</a></p>-->
-            </div>
-            <img src="pendidikan.jpg"/>
-        </section>
-
-        <!-- untuk tutors -->
-        <section id="tutors">
-            <!-- <div class="tengah"> -->
-                <!--<img src="potokerjo.jpg"/>-->
-                <div class="model">
-                    <div class="gbr">
-                        <img src="potokerjo.jpg" alt="">  
-                    </div>
-                    <div class="layout">
-                        <h1>Riwayat Pekerjaan</h1>
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent1')">PT.GEMA NUSALESTARI </button>
-                            <div class="menu-content" id="menuContent1">   
-                                <p><b>2008-2009 </b> <br>        
-                                <b>Jabatan Sebagai Kepala Gudang </b> <br>
-                                 * Mendata Barang Masuk dan Keluar Gudang <br>
-                                 * Melaporkan Setiap Pagi Nilai Rupiah Pengeluaran <br>
-                                 -  Gudang  <br>
-                                 * Membuat Laporan Gudang Per 1 Bulan   </p> 
-                            </div>
-                        </div>        
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent2')">PT.GONDARI </button>
-                            <div class="menu-content" id="menuContent2">
-                                <p><b>2009-2011 </b> <br>             
-                                <b>Jabatan Sebagai Supervisor MD Unilever </b> <br>
-                                 * Mendistribusikan Planogram Display Kepada MD <br>
-                                 * Mengecek Promo atau gift tersampaikan ke Outlet<br>
-                                 * Melaporkan Kegiatan Kompetitor   </p> 
-                            </div>
-                        </div>        
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent3')">PT.ANGKASA MULYA </button>
-                            <div class="menu-content" id="menuContent3">  
-                                <p><b>2011-2015 </b> <br>           
-                                <b>Jabatan Sebagai Kepala Cabang </b> <br>
-                                 * Mengatur Alur Distribusi Barang Dr Gudang Ke outlet <br>
-                                 * Memonitoring Penjualan dan Penagihan Sales <br>
-                                 * Bertanggung jawab atas segala aset dan operasional <br> 
-                                   - distributor   </p> 
-                            </div>
-                        </div>        
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent4')">PT.ENHA PUTRA </button>
-                            <div class="menu-content" id="menuContent4">  
-                                <p><b>2015-2019 </b> <br>           
-                                <b>Jabatan Sebagai Kepala Admin </b> <br>
-                                 * Memastikan Team bekerja sesuai jobdesk masing <br>
-                                  - masing <br>
-                                 * Validasi Tagihan tagihan ke lapangan <br>
-                                 * Melaporkan Piutang Overdue Ke kepala Cabang <br> 
-                                 - dan GM <br>
-                                 *  Melakukan Stok Opname Gudang Per 3 bulan sekali  </p> 
-                            </div>
-                        </div>        
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent5')">PT.MANNA DISTRINDO </button>
-                            <div class="menu-content" id="menuContent5">  
-                                <p><b>2019-2023 </b> <br>           
-                                <b>Jabatan Sebagai Kepala Admin </b> <br>
-                                 * Memastikan Team bekerja sesuai jobdesk masing <br>
-                                  - masing <br>
-                                 * Validasi Tagihan tagihan ke lapangan <br>
-                                 * Melaporkan Piutang Overdue Ke kepala Cabang <br> 
-                                 - dan Owner <br>
-                                 *  Melakukan Stok Opname Gudang Per 3 bulan sekali  </p> 
-                            </div>
-                        </div>        
-                        <div class="menu">
-                            <button class="menu-button" onclick="toggleMenu('menuContent6')">PT.RUKUN MITRA SEJATI </button>
-                            <div class="menu-content" id="menuContent6">  
-                                <p><b>2024-Sekarang </b> <br>           
-                               <b>Jabatan Sebagai SPV Warehouse </b> <br>
-                                 * Mengatur Space dan Penataan Letak <br> 
-                                    - Barang Gudang <br> 
-                                 * Menerima Barang Dari Principal <br>
-                                 * Mengeluarkan Barang Berdasarkan PickList <br>
-                                    Atau Faktur Ke Mobil  <br> 
-                                 *  Melakukan Stok Opname Gudang Per 1 bulan sekali  </p> 
-                            </div>
-                        </div>  
-                        
-                    </div>
-                </div>    
-            
-        </section>
-
-        <!-- untuk partners -->
-        <section id="partners">
-            <div class="tengah">
-                <div class="kolom">
-                    <p class="deskripsi">Our Top Partners</p>
-                    <p>Beberapa brand produk yang pernah kerjasama atau menangani pendistribusiannya
-                        diantaranya adalan Brand produk dari PT.UNILEVER INDONESIA Tbk, PT.MAYORA Tbk, PT.KINO INDONESIA Tbk,
-                        KALBE NUTRITIONAL, PT.INTRASARI,  WELHAM, SINARMAS, MINYAK MM<br> Dan lain - lain
-                    </p>
-                </div>
-
-                <div class="partner-list">
-                    <div class="kartu-partner">
-                        <img src="unilever.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="mayora.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="morinaga.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="panther.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="pepsodent.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="kis.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="ponds.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="rinso.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="sunsilk.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="zee.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="beng.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="panda.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="dove.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="ck3.jpg"/>
-                    </div>
-                    <div class="kartu-partner">
-                        <img src="kit.jpg"/>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="contact">
-        <div class="wrapper">
-            <div class="footer">
-                <div class="footer-section">
-                    <h3>Riko Haryadi</h3>
-                    <p>Riko Ucapkan terimakasih atas kunjungannya di website saya.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <p>
-                     <b> Phone :</b> 0856-5887-9537  <br>
-                     <b>Email :</b> <br> rikoharyadi0908@gmail.com 
-                    </p>
-                </div>
-                <div class="footer-section">
-                    <h3>Address</h3>
-                    <p>Desa Pelayangan Kec.Muara Tembesi Kab.Batanghari-jambi</p>
-                    <p>Kode Pos: 36653</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Social</h3>
-                    <p><b>Facebook: </b>riko haryadi <br>
-                    <b>Instagram: </b>@riko_haryadi </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="copyright">
-        <div class="wrapper">
-            &copy; 2024. <b>Portofolio Riko.</b> All Rights Reserved.
-        </div>
-    </div>
+    <!-- Nav Bar -->
+    <div class="navbar">
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <div class="navbar-links" id="navLinks">
+        <a href="senin.html">SENIN</a>
+        <a href="selasa.html">SELASA</a>
+        <a href="index.html">RABU</a>
+        <a href="2.html">KAMIS</a>
+        <a href="jumat.html">JUMAT</a>
+        <a href="sabtu.html">SABTU</a>
     
+    <!-- Tambahkan link lain sesuai kebutuhan -->
+  </div>
+  <div class="navbar-text">RUTE SALESMAN TAPAN</div>
+</div>
+<div id="sidebar">
+  <div class="sales-item">
+    <img src="ghazi.jpg" alt="Ghazi">
+    <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 152</p><p>RPP: Rp. 191.672.127</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="bagas.jpg" alt="Bagas">
+    <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 157</p><p>RPP: Rp. 225.102.885</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="aska.jpg" alt="Aska">
+    <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 99</p><p>RPP: Rp. 10.008.558</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="rms.jpg" alt="Aska">
+    <div class="sales-info"><h3>Total Distributor</h3><p>Total Outlet: 408</p><p>RPP: Rp. 426.783.570</p></div>
+  </div>
+</div>
+  <button id="toggle-btn"><</button>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-btn');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.classList.toggle('collapsed');
+      // Re-render map
+      setTimeout(() => map.invalidateSize(), 310);
+    });
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
+    // Kelompok 1 (Biru)
+    const markersDataBlue = [
+      { lat: -1.915518, lng: 100.886144, label: "TOKO ZILVA" },
+      { lat: -1.9752634, lng: 100.93243, label: "AURORA" },
+      { lat: -1.693933, lng: 100.709955, label: "RIZKY MART 2" },
+      { lat: -1.86682515, lng: 100.8528589, label: "C I C I" },
+      { lat: -1.86800783, lng: 100.85332494, label: "TALAGO INDAH" },
+      { lat: -1.935328, lng: 100.899051, label: "TOKO QUEEN" },
+      { lat: -1.983004, lng: 100.937255, label: "AMANAT KAWAN MART" },
+      { lat: -1.78057236, lng: 100.78362968, label: "ICEN" },
+      { lat: -1.936952, lng: 100.899762, label: "TOKO ADIT" },
+      { lat: -1.885932, lng: 100.866359, label: "ALDAN" },
+      { lat: -1.884908, lng: 100.861162, label: "ARISMAN" },
+      { lat: -1.89186824, lng: 100.86549898, label: "RIZKY" },
+      { lat: -1.8725933, lng: 100.83757, label: "SI EL" },
+      { lat: -1.904097, lng: 100.855402, label: "TOKO CALISTA" },
+      { lat: -1.90452572, lng: 100.85562005, label: "ZAHRA" },
+      { lat: -1.838, lng: 100.81602, label: "DESI" },
+      { lat: -1.82545874, lng: 100.84391157, label: "FAMILY" },
+      { lat: -1.821772, lng: 100.841208, label: "IWIT" },
+      { lat: -1.844431, lng: 100.841303, label: "KIMIN" },
+      { lat: -1.83711, lng: 100.82426833, label: "LANRA" },
+      { lat: -1.80531555, lng: 100.85856864, label: "UNIANG" },
+      { lat: -1.8275067, lng: 100.82738, label: "NINDI" },
+      { lat: -1.844648, lng: 100.841407, label: "IMIS" },
+      { lat: -1.84467, lng: 100.841377, label: "MADIRA" },
+      { lat: -1.926927, lng: 100.893218, label: "TOKO TIKA GROSIR" },
+      { lat: -1.9540167, lng: 100.91366, label: "WAFDA" },
+      { lat: -1.886504, lng: 100.866166, label: "TOKO JENJAK" },
+      { lat: -1.959714, lng: 100.872432, label: "SIDI" },
+      { lat: -1.97477, lng: 100.882204, label: "ATHAR" },
+      { lat: -1.855567, lng: 100.861559, label: "TOKO INEL" },
+    ];
+
+    // Kelompok 2 (Merah)
+    const markersDataRed = [
+      { lat: -1.915518, lng: 100.886144, label: "ARISKA" },
+      { lat: -1.917389, lng: 100.900077, label: "ARSY" },
+      { lat: -1.92078218, lng: 100.88219346, label: "CECEN" },
+      { lat: -1.92112536, lng: 100.88249071, label: "E R I" },
+      { lat: -1.92091966, lng: 100.88241486, label: "ERMAN" },
+      { lat: -1.9171966, lng: 100.880554, label: "HASANAH" },
+      { lat: -1.92093109, lng: 100.88247442, label: "HERMAN" },
+      { lat: -1.92409, lng: 100.895451, label: "I G U S" },
+      { lat: -1.92093819, lng: 100.8824773, label: "IQBAL" },
+      { lat: -1.93531, lng: 100.89908, label: "RAFLI" },
+      { lat: -1.914484, lng: 100.879053, label: "RIZAL KAMPAS" },
+      { lat: -1.920031, lng: 100.862984, label: "SANTI" },
+      { lat: -1.928941, lng: 100.895052, label: "SASHAILA" },
+      { lat: -1.917298, lng: 100.90187, label: "UPIK AIR HAJI" },
+      { lat: -1.92356781, lng: 100.88615118, label: "WIN" },
+      { lat: -2.05129634, lng: 100.96387372, label: "INDAH" },
+      { lat: -1.92382475, lng: 100.89685192, label: "I N A L" },
+      { lat: -1.91884478, lng: 100.88131753, label: "NABIL" },
+      { lat: -1.912385, lng: 100.877914, label: "SALAMON" },
+      { lat: -1.9196533, lng: 100.88174, label: "AJI MANIR" },
+      { lat: -1.9198886, lng: 100.88164, label: "ITA MANIR" },
+      { lat: -1.91144587, lng: 100.87762697, label: "F I K O" },
+      { lat: -1.9185866, lng: 100.881195, label: "RAMIDI" },
+      { lat: -1.92457723, lng: 100.908089, label: "RULLY" },
+    ];
+
+    // Kelompok 3 (Kuning)
+    const markersDataYellow = [
+      { lat: -1.90239, lng: 100.872647, label: "TOKO SRW" },
+      { lat: -1.92197, lng: 100.878301, label: "TOKO YANILA" },
+      { lat: -1.982191, lng: 100.936768, label: "TOKO ZAHIRA" },
+      { lat: -1.911765, lng: 100.899285, label: "TOKO ZILZAH" },
+      { lat: -1.924108, lng: 100.886899, label: "TOKO BASIRA" },
+      { lat: -1.924975, lng: 100.890014, label: "TOKO BULAN" },
+      { lat: -1.670468, lng: 100.691877, label: "AUREL K" },
+      { lat: -1.684673, lng: 100.705212, label: "TOKO ARSEN" },
+      { lat: -1.69795, lng: 100.711269, label: "TOKO RIAN" },
+      { lat: -1.693049, lng: 100.712958, label: "TOKO RISHFA" },
+      { lat: -1.781807, lng: 100.811563, label: "TOKO AZKA" },
+      { lat: -1.739755, lng: 100.745194, label: "JONI LENGAYANG" },
+      { lat: -1.742926, lng: 100.747984, label: "TOKO SHANUM" },
+      { lat: -1.741634, lng: 100.746813, label: "TOKO KHAYLA" },
+      { lat: -1.941617, lng: 100.902003, label: "ALFA RIZKI" },
+      { lat: -1.769325, lng: 100.770797, label: "YAZID CELL" },
+      { lat: -1.89385, lng: 100.866979, label: "KADAI ITOS" },
+      { lat: -1.895359, lng: 100.867925, label: "TOKO AFIKA" },
+      { lat: -1.888837, lng: 100.865137, label: "TOKO EMA" },
+      { lat: -1.958029, lng: 100.916051, label: "TOKO HANIA" },
+      { lat: -1.965715, lng: 100.921425, label: "TOKO VIORA" },
+      { lat: -1.826705, lng: 100.843403, label: "TOKO AWAL" },
+    ];
+
+     // ===============================
+    // 2) BUAT PETA LEAFLET
+    // ===============================
+    // Gabungkan semua marker (biru + merah + kuning) untuk perhitungan posisi peta
+    const allMarkers = [
+      ...markersDataBlue,
+      ...markersDataRed,
+      ...markersDataYellow
+    ];
+
+    let sumLat = 0;
+    let sumLng = 0;
+    allMarkers.forEach((data) => {
+      sumLat += data.lat;
+      sumLng += data.lng;
+    });
+    const avgLat = sumLat / allMarkers.length;
+    const avgLng = sumLng / allMarkers.length;
+
+    // Membuat objek peta dan pusatkan ke posisi rata-rata
+    const map = L.map('map').setView([avgLat, avgLng], 13);
+
+    // ===============================
+    // 3) DEFINISIKAN BASE LAYERS (Tampilan Peta)
+    // ===============================
+    // Tampilan jalan (OpenStreetMap)
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© CopyRight-Riko Haryadi'
+    }).addTo(map);
+
+    // Tampilan satelit (Esri World Imagery)
+    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: 'Tiles © Esri'
+    });
+
+    // Tampilan medan/terrain (OpenTopoMap)
+    const terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: '© OpenTopoMap'
+    });
+
+    // ===============================
+    // 4) FUNGSI UNTUK ICON CUSTOM
+    // ===============================
+    function createCustomIcon(color) {
+      return L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + color + '.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+    }
+
+    // Icon untuk tiap kelompok
+    const blueIcon = createCustomIcon('blue');
+    const redIcon = createCustomIcon('red');
+    const yellowIcon = createCustomIcon('yellow');
+
+    // ===============================
+    // 5) TAMBAH MARKER KELOMPOK 1 (BIRU)
+    // ===============================
+    const blueMarkers = L.layerGroup();
+    markersDataBlue.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: blueIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(blueMarkers);
+    });
+    blueMarkers.addTo(map);
+
+    // ===============================
+    // 6) TAMBAH MARKER KELOMPOK 2 (MERAH)
+    // ===============================
+    const redMarkers = L.layerGroup();
+    markersDataRed.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: redIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(redMarkers);
+    });
+    redMarkers.addTo(map);
+
+    // ===============================
+    // 7) TAMBAH MARKER KELOMPOK 3 (KUNING)
+    // ===============================
+    const yellowMarkers = L.layerGroup();
+    markersDataYellow.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: yellowIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(yellowMarkers);
+    });
+    yellowMarkers.addTo(map);
+   
+    // ===============================
+    // 8) CONTROL LAYER (Pilih Tampilan dan Marker)
+    // ===============================
+    const baseMaps = {
+      "Jalan (OSM)": osm,
+      "Satelit (Esri)": satellite,
+      "Medan (OpenTopoMap)": terrain
+    };
+
+    const overlayMaps = {
+      "Ghazi Biru": blueMarkers,
+      "Bagas Merah": redMarkers,
+      "Azka Kuning": yellowMarkers
+    };
+
+    L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+    // Tambahkan kotak catatan dengan tiga entry
+    var noteControl = L.control({ position: 'bottomright' });
+    noteControl.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'note-box');
+      div.innerHTML = `
+        <b>Bagas</b><br>
+        Total Outlet: 24<br>
+        RPP: Rp 24 Jt<br><br>
+        <b>Ghazi</b><br>
+        Total Outlet: 30<br>
+        RPP: Rp 35 Jt<br><br>
+        <b>Azka</b><br>
+        Total Outlet: 22<br>
+        RPP: Rp 2 Jt
+      `;
+      return div;
+    };
+    noteControl.addTo(map);
+
+      // Kalau layar di-resize (termasuk saat orientation change), perbarui ukuran peta
+window.addEventListener('resize', () => {
+  map.invalidateSize();
+});
+
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('show');
+}
+  </script>
 </body>
 </html>
