@@ -4,21 +4,41 @@
     padding: 0px;
 }
 
-body {
-    margin: 0px;
-    padding: 0px;
-    font-family: 'Open Sans',sans-serif;
-    background-image: url(https://img.freepik.com/free-vector/gray-line-drawings-organic-shapes-background_1409-3947.jpg?t=st=1725187640~exp=1725191240~hmac=0e262dc5c259bb6d467b5d79181118b82fdcf795abae2ce140457f5b2b3e96e9&w=740);
-}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  body {
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    overflow-x: hidden; /* mencegah horizontal scroll */
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+  
+    background-image: url("kelok9.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  
+    z-index: -1;
+  }
+  
 .wrapper {
-    width: 1100px;
+    max-width: 1100px;  /* maksimal 1100px */
+    width: 100%;        /* tapi bisa mengecil mengikuti layar */
     margin: auto;
     position: relative;
+    padding: 0 15px;    /* beri sedikit padding di kiri/kanan */
     
 }
 
 .logo a {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 800;
     float: left;
     font-family: courier;
@@ -27,16 +47,21 @@ body {
 
 .menu {
     float: right;
+    margin-top: 0px;
 }
 .wrapper11 {
     width: 100%;
-    background-image: url(https://img.freepik.com/free-vector/elegant-hand-painted-alcohol-ink-background-with-gold-glitter_1048-16896.jpg?w=740&t=st=1725339683~exp=1725340283~hmac=9123754b11f09a4fd236097823843494186832696be112135437c50eae4c59de);
+
+    min-height: 100vh; 
+    
+    /* background-image: url(https://img.freepik.com/free-vector/elegant-hand-painted-alcohol-ink-background-with-gold-glitter_1048-16896.jpg?w=740&t=st=1725339683~exp=1725340283~hmac=9123754b11f09a4fd236097823843494186832696be112135437c50eae4c59de); */
 }
 
 nav {
     width: 100%;
+    height: 90px;
     margin: auto;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     display: flex;
     line-height: 80px;
     position: sticky;
@@ -56,6 +81,8 @@ nav ul {
 
 nav ul li {
     float: left;
+    font-size: 14px;
+    
 }
 
 nav ul li a {
@@ -89,7 +116,10 @@ section {
     font-size: 20px;
     font-weight: bold;
     font-family: 'comic sans ms';
-    color: #000307;
+    color: #e6eaf0;
+}
+.riwayat {
+    color: #070a0e;
 }
 .kolom .experince {
     margin-left: 100px;
@@ -100,7 +130,7 @@ h2 {
     font-weight: 800;
     font-size: 30px;
     margin-bottom: 10px;
-    color: #00060e;
+    color: #dde2e9;
     width: 100%;
     line-height: 50px;
 }
@@ -153,6 +183,7 @@ p {
 
 
 
+
 .kartu-tutor {
     width: 20%;
     margin: 0 auto;
@@ -201,7 +232,7 @@ p {
     border-radius: 50%;
 }
 p {
-    color: #00050a;
+    color: #ebeef1;
     margin-top: 5px;
     font-family: "Nerko One", cursive;
     font-weight: 400;
@@ -233,7 +264,7 @@ h3 {
     font-weight: 800;
     font-size: 30px;
     margin-bottom: 20px;
-    color: #364f6b;
+    color: #eaedf1;
     width: 100%;
     line-height: 50px;
 }
@@ -271,6 +302,7 @@ h3 {
     nav .menu ul li {
         display: inline-block;
         float: none;
+        color: white;
     }
 
     section {
@@ -290,6 +322,27 @@ h3 {
     .kartu-partner {
         width: 50%;
     }
+    .model {
+        flex-direction: column;
+        justify-content: center; /* center secara horizontal */
+        align-items: center;     /* center secara vertical */
+        flex-wrap: wrap;         /* biar kalau terlalu sempit, wrap ke bawah */
+        gap: 20px;               /* spasi antar elemen, opsional */
+    }
+    .gbr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* 3. Atur ukuran gambar dan responsive */
+      .gbr img {
+        display: block;    /* agar margin auto bekerja */
+        margin: 0 auto;
+        width: auto;
+        height: 350px;
+        max-width: 100%;   /* pastikan tidak overflow di mobile */
+      }
 }
 .tombol-menu {
     position: absolute;
@@ -324,6 +377,27 @@ h3 {
         width:100%;
         border-bottom:1px solid #333333;
     }
+    .model {
+        flex-direction: column;
+        justify-content: center; /* center secara horizontal */
+        align-items: center;     /* center secara vertical */
+        flex-wrap: wrap;         /* biar kalau terlalu sempit, wrap ke bawah */
+        gap: 20px;               /* spasi antar elemen, opsional */
+    }
+    .gbr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* 3. Atur ukuran gambar dan responsive */
+      .gbr img {
+        display: block;    /* agar margin auto bekerja */
+        margin: 0 auto;
+        width: auto;
+        height: 350px;
+        max-width: 100%;   /* pastikan tidak overflow di mobile */
+      }
 }
 
 .gbr img {
@@ -360,13 +434,53 @@ h3 {
     margin-left: 10px;
     margin-right: 30px;
 }
+.model {
+    flex-direction: column;
+    justify-content: center; /* center secara horizontal */
+    align-items: center;     /* center secara vertical */
+    flex-wrap: wrap;         /* biar kalau terlalu sempit, wrap ke bawah */
+    gap: 20px;               /* spasi antar elemen, opsional */
+}
+.gbr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* 3. Atur ukuran gambar dan responsive */
+  .gbr img {
+    display: block;    /* agar margin auto bekerja */
+    margin: 0 auto;
+    width: auto;
+    height: 450px;
+    max-width: 100%;   /* pastikan tidak overflow di mobile */
+  }
 
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
+    body::before 
     .model {
         flex-direction: column;
+        justify-content: center; /* center secara horizontal */
+        align-items: center;     /* center secara vertical */
+        flex-wrap: wrap;         /* biar kalau terlalu sempit, wrap ke bawah */
+        gap: 20px;               /* spasi antar elemen, opsional */
     }
+    .gbr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* 3. Atur ukuran gambar dan responsive */
+      .gbr img {
+        display: block;    /* agar margin auto bekerja */
+        margin: 0 auto;
+        width: auto;
+        height: 350px;
+        max-width: 100%;   /* pastikan tidak overflow di mobile */
+      }
     
     .main-content {
         margin-right: 0;
@@ -418,7 +532,7 @@ h3 {
         font-size: 15px;
     }
     .ppriko img {
-        width: 150px;
+        width: 100px;
         margin-bottom: 0px;
     }
     .layout h1 {
@@ -428,11 +542,17 @@ h3 {
         font-size: 20px;
         margin-left: 30px;
     }
-
+    .gbr img {
+        width: auto;
+        height: 350px;
+        position: relative;
+    }
+    }
     
 
-}
+
 @media (max-width: 480px) {
+    body::before 
     .deskripsi  {
         font-size: 20px;
         text-align: center;
@@ -447,13 +567,55 @@ h3 {
         float: left;
 
     }
+    .model {
+        flex-direction: column;
+        justify-content: center; /* center secara horizontal */
+        align-items: center;     /* center secara vertical */
+        flex-wrap: wrap;         /* biar kalau terlalu sempit, wrap ke bawah */
+        gap: 20px;               /* spasi antar elemen, opsional */
+    }
+    .gbr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      /* 3. Atur ukuran gambar dan responsive */
+      .gbr img {
+        display: block;    /* agar margin auto bekerja */
+        margin: 0 auto;
+        width: auto;
+        height: 350px;
+        max-width: 100%;   /* pastikan tidak overflow di mobile */
+      }
+      .layout {
+        justify-content: center;
+        align-content: center;
+        font-size: 15px;
+    }
+    .layout h1 {
+        color: rgb(237, 240, 245);
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+        font-weight: bold;
+        
+        font-family: 'comic sans ms';
+        text-align: center;
+    }
+    .menu-content {
+        font-size: 10px;
+    }
+    
 }
+
+
 .layout {
     justify-content: center;
     align-content: center;
 }
 .layout h1 {
-    color: rgb(12, 65, 145);
+    color: rgb(237, 240, 245);
     justify-content: center;
     align-items: center;
     margin-left: 10px;
@@ -463,3 +625,82 @@ h3 {
     text-align: center;
 }
 
+#tutors .model {
+    display: flex;
+    flex-direction: row;        /* gambar di kiri, konten di kanan */
+    align-items: flex-start;    /* sejajar di atas */
+    gap: 30px;                  /* spasi antara gambar & konten */
+    background-color: rgba(255,255,255,0.6);
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  #tutors .gbr {
+    flex: 1;                    /* proporsi 1 bagian */
+  }
+  
+  #tutors .gbr img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  #tutors .layout {
+    flex: 2;                    /* proporsi 2 bagian */
+  }
+  
+  /* styling judul */
+  #tutors .layout h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-family: 'comic sans ms', cursive;
+    color: #070a0e;
+    text-align: left;
+  }
+  
+  /* tombol menu */
+  #tutors .menu {
+    margin-bottom: 15px;
+  }
+  
+  /* #tutors .menu-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 16px;
+    background: #3f72af;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  } */
+  
+  #tutors .menu-content {
+    display: none;
+    padding: 14px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    margin-top: 6px;
+  }
+  @media screen and (max-width: 991.98px) {
+    #tutors .model {
+      flex-direction: column;
+      align-items: center;
+    }
+    #tutors .layout h1 {
+      text-align: center;
+    }
+    #tutors .menu-button {
+      width: 200px;
+    }
+    .menu-content {
+        font-size: 10px;
+    }
+    .menu {
+        color: white;
+    }
+  }  
