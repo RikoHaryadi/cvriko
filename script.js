@@ -72,6 +72,9 @@ if ('IntersectionObserver' in window) {
     }, { threshold: 0.12 });
     revealEls.forEach(function (el) { revealObs.observe(el); });
 
+    // Angka asli sudah tertulis di HTML; di-reset ke 0 hanya agar bisa dianimasikan
+    counters.forEach(function (el) { el.textContent = '0'; });
+
     var countObs = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
@@ -79,7 +82,7 @@ if ('IntersectionObserver' in window) {
                 countObs.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 });
     counters.forEach(function (el) { countObs.observe(el); });
 
     var sectionObs = new IntersectionObserver(function (entries) {
