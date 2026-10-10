@@ -642,3 +642,8 @@ h2 {
     .footer { grid-template-columns: 1fr; gap: 22px; }
     .hero-tagline { font-size: 22px; }
 }
+
+/* Jika JavaScript gagal dimuat, semua detail pekerjaan tetap terbuka */
+.no-js .tl-body { grid-template-rows: 1fr; }
+.no-js .tl-body > ul { padding-bottom: 18px; }
+.no-js .tl-icon { display: none; }
